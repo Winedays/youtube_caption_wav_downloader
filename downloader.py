@@ -32,7 +32,7 @@ class YoutubeDownload :
     # @parms language, language of captions you want to get, optional, defaults to "zh-TW". ( however "zh-Hant" / "zh-Hant-TW" are similar to "zh-TW" )
     # @parms fileType, save file format, should be "srt" or "xml", optional, defaults to "srt".
     # @return   save path of caption file
-    def download_captions( self , url, fileName: str = None , language: str = "zh-TW" , fileType: str = "srt" ) :
+    def download_captions( self , url: str, fileName: str = None , language: str = "zh-TW" , fileType: str = "srt" ) :
         # check if this url already loaded
         self.getVideoInfo( url )
         # check parms.
@@ -62,7 +62,7 @@ class YoutubeDownload :
     # @parms fileName, save file name without extension, optional, defaults to video title.
     # @parms keepMp4, is need to keep the mp4 audio file , optional, defaults to False.
     # @return   save path of wav file
-    def download_wav( self , url, fileName: str = None, keepMp4: bool = False) :
+    def download_wav( self , url: str, fileName: str = None, keepMp4: bool = False) :
         # check if this url already loaded 
         self.getVideoInfo( url )
         # check parms.
