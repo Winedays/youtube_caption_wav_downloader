@@ -18,6 +18,8 @@ class YoutubeSearch :
         self.max_results_playlist = max_results_playlist
         self.language = language
         self.region = region
+        self.videosResult = None
+        self.playlistResult = None 
         return ;
     
     # search video in youtube by keyword
@@ -62,8 +64,10 @@ class YoutubeSearch :
     # @parms searchType, search result object name, should be "videosResult" or "playlistResult"
     # @parms callFunction, called function name, use to print exception messages
     def checkIsSearch( self , searchType:str , callFunction:str ) :
-        if not hasattr( self , searchType ) :
-            raise Exception(f"Exception : {searchType} not exist, you should search first before you call {callFunction}!")
+        if searchType == "videosResult" and not self.videosResult :
+            raise Exception(f"Exception : video result not exist, you should search first before you call {callFunction}!")
+        elif searchType == "playlistResult" and not self.playlistResult :
+            raise Exception(f"Exception : playlist result not exist, you should search first before you call {callFunction}!")
         return ;
     
 if __name__ == "__main__" :  
