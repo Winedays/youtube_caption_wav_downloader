@@ -29,10 +29,10 @@ class YoutubeDownload :
     # get captions and save as srt/xml format file
     # @parms url, youtube link url.
     # @parms fileName, save file name without extension, optional, defaults to video title.
-    # @parms language, language of captions you want to get, optional, defaults to "zh-Hant".
+    # @parms language, language of captions you want to get, optional, defaults to "zh-TW". ( however "zh-Hant" / "zh-Hant-TW" are similar to "zh-TW" )
     # @parms fileType, save file format, should be "srt" or "xml", optional, defaults to "srt".
     # @return   save path of caption file
-    def download_captions( self , url, fileName: str = None , language: str = "zh-Hant" , fileType: str = "srt" ) :
+    def download_captions( self , url, fileName: str = None , language: str = "zh-TW" , fileType: str = "srt" ) :
         # check if this url already loaded
         self.getVideoInfo( url )
         # check parms.
