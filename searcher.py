@@ -1,20 +1,17 @@
 import os
-import json
 import sys
 from youtubesearchpython import SearchVideos, SearchPlaylists
 
 # give a keyword , search videos in Youtube
-class ytSearch :
+class YoutubeSearch :
     # set search key word
-    # @parms keyword, search keyword
     # @parms offset, offset for result pages on YouTube, optional, defaults to 1.
     # @parms mode, search result return type, should be "json", "dict" or "list", optional, defaults to "dict".
     # @parms max_results_videos , maximum number of video results, optional, defaults to 20, maximum value should be 20.
     # @parms max_results_playlist , maximum number of playlist results, optional, defaults to 10, maximum value should be 20.
     # @parms language, use to get results in particular language, optional, defaults to "zh-TW".
     # @parms region, use to get results according to particular language, optional, defaults to "TW".
-    def __init__( self, keyword:str , offset:int = 1 , mode:str = "dict" , max_results_videos:int = 20 , max_results_playlist:int = 10 , language:str = "zh-TW" , region:str = "TW" ) :
-        self.keyword = keyword
+    def __init__( self, offset:int = 1 , mode:str = "dict" , max_results_videos:int = 20 , max_results_playlist:int = 10 , language:str = "zh-TW" , region:str = "TW" ) :
         self.offset = offset
         self.mode = mode
         self.max_results_videos = max_results_videos
@@ -24,15 +21,17 @@ class ytSearch :
         return ;
     
     # search video in youtube by keyword
+    # @parms keyword, search keyword
     # @return   search result in type of self.mode
-    def searchYTVideo( self ) :
-        self.videosResult = SearchVideos( self.keyword, offset = self.offset, mode = self.mode, max_results = self.max_results_videos, language = self.language, region = self.region )
+    def searchYTVideo( self, keyword:str ) :
+        self.videosResult = SearchVideos( keyword, offset = self.offset, mode = self.mode, max_results = self.max_results_videos, language = self.language, region = self.region )
         return self.videosResult.result() ;
 
     # search playlist in youtube by keyword
+    # @parms keyword, search keyword
     # @return   search result in type of self.mode
-    def searchYTPlaylists( self ) :
-        self.playlistResult = SearchPlaylists( self.keyword, offset = self.offset, mode = self.mode, max_results = self.max_results_videos, language = self.language, region = self.region )
+    def searchYTPlaylists( self, keyword:str ) :
+        self.playlistResult = SearchPlaylists( keyword, offset = self.offset, mode = self.mode, max_results = self.max_results_videos, language = self.language, region = self.region )
         return self.playlistResult.result() ;
 
     # return all video's titles as a list
@@ -70,9 +69,9 @@ class ytSearch :
 if __name__ == "__main__" :  
     try :
         keyword = "微軟"
-        searcher = ytSearch( keyword )
-        videoInfo = searcher.searchYTVideo()
-        playlistInfo = searcher.searchYTPlaylists()
+        searcher = YoutubeSearch()
+        videoInfo = searcher.searchYTVideo( keyword )
+        playlistInfo = searcher.searchYTPlaylists( keyword )
         print( videoInfo["search_result"][0] )
         print( playlistInfo["search_result"][0] )
         print( searcher.getVideoTitles() )
