@@ -22,14 +22,16 @@ class YoutubeSearch :
         self.playlistResult = None 
         return ;
     
-    # search video in youtube by keyword
+    # search video with caption in youtube by keyword
     # @parms keyword, search keyword
     # @return   search result in type of self.mode
     def searchYTVideo( self, keyword:str ) :
-        self.videosResult = SearchVideos( keyword, offset = self.offset, mode = self.mode, max_results = self.max_results_videos, language = self.language, region = self.region )
+        withoutCaption = "EgIQAQ%3D%3D" # video w/o caption
+        withCaption = "EgQQASgB" # video with caption ( but it still get video w/o caption in youtube search -.- )
+        self.videosResult = SearchVideos( keyword, offset = self.offset, mode = self.mode, max_results = self.max_results_videos, searchPreferences = withCaption , language = self.language, region = self.region )
         return self.videosResult.result() ;
 
-    # search playlist in youtube by keyword
+    # search playlist in youtube by keyword (playlist can't search with caption)
     # @parms keyword, search keyword
     # @return   search result in type of self.mode
     def searchYTPlaylist( self, keyword:str ) :

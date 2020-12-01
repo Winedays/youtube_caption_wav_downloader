@@ -1,0 +1,7 @@
+#python3
+
+youtubesearchpython/__pycache__/*
+
+#python2
+
+youtubesearchpython/*.pyc
