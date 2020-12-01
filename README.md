@@ -2,7 +2,15 @@
 
 **以關鍵字搜尋 Youtube 影片，下載影片音訊及字幕**  
 
-整合兩個套件，簡化套件的呼叫流程，加入個人化功能，在 Youtube 上尋找特定關鍵字的影片，下載該影片的字幕資訊為 srt 或 xml 格式(如有)及音頻資訊為 wav 格式 (需引用 ffmpeg 套件)
+整合兩個套件，簡化套件的呼叫流程，加入個人化功能，在 Youtube 上尋找特定關鍵字的影片，找出具有字幕的影片，下載該影片的字幕資訊為 srt 或 xml 格式(如有)及音頻資訊為 wav 格式 (需引用 ffmpeg 套件轉換，原為 mp4 格式)
+
+## Note
+
+* 01/12/2020
+    * 搜尋影片時只搜尋有字幕的影片，為此需要改動 youtube-search-python 的 source code
+    * git clone youtube-search-python 套件，在 SearchVideos 中將條件參數改為可調整的，原固定為 "EgIQAQ%3D%3D"(影片)，現預設為 "EgQQASgB" (有字幕的影片)
+    * youtube-search-python 從 pip 套件改為引用同一目錄下修改過的 source code (requirements更新)
+    * 播放清單不能限制其他搜集條件，現在只有影片針對有字幕的來搜尋
 
 ## requirements
 * Pytube
@@ -15,8 +23,8 @@ keyword search
 ```python
 keyword = "anythink"
 yts = YoutubeSearch()
-v_result = yts.searchYTVideo( keyword )
-p_result = yts.searchYTPlaylist( keyword )
+v_result = yts.searchYTVideo( keyword )  # search video w/ caption only
+p_result = yts.searchYTPlaylist( keyword )  # search playlist only
 ```
 
 get video links of search result
@@ -31,18 +39,18 @@ playlists = yts.playlistResult.links  # yts.playlistResult is a object of youtub
 
 download caption & wav audio of a url
 ```python
-ytdl = YoutubeDownload( savePath = "/tmp" )
+ytdl = YoutubeDownload( savePath = "/tmp" )  # you should create the folder yourself
 caption_file_path = ytdl.download_captions( url )
 wav_file_path = ytdl.download_wav( url )
 ```
 
-sample code
+**sample code**
 ```python
 python cw_search_download.py
 ```
 
 ## YoutubeSearch Object
-### **class downloader.YoutubeSearch( offset: Optional[int] = 1 , mode: Optional[str] = "dict" , max_results_videos: Optional[int] = 20 , max_results_playlist: Optional[int] = 10 , language: Optional[str] = "zh-TW" , region: Optional[str] = "TW" )**  
+### **class searcher.YoutubeSearch( offset: Optional[int] = 1 , mode: Optional[str] = "dict" , max_results_videos: Optional[int] = 20 , max_results_playlist: Optional[int] = 10 , language: Optional[str] = "zh-TW" , region: Optional[str] = "TW" )**  
 controller of search process  
 
 > **videosResult**
@@ -90,9 +98,6 @@ return all playlist's link from search result as a list
 * **@return**   a list of link of playlist search result
 
 
-
-
-
 ## YoutubeDownload Object
 ### **class downloader.YoutubeDownload(savePath: str)**  
 controller of download process  
@@ -102,7 +107,6 @@ controller of download process
 Information of a video, you should call this parameter after call getVideoInfo(url)  
 recommended to call gstVideoInfo to get the same result, it more safetive than call this parameter
 * **@return**   a YouTube Object, please read [pytube docment ](https://python-pytube.readthedocs.io/en/latest/api.html?highlight=on_download_complete#youtube-object)
-
 
 > **download_captions( url: str, fileName: Optional[str] = None , language: Optional[str] = "zh-TW" , fileType: Optional[str] = "srt" ) → str**
 >     
@@ -134,6 +138,6 @@ get a video's information by a video url
 
 ## Todo
 * change ffmpeg to python-ffmpeg
-* search video/playlist with exist caption only (by https://github.com/alexmercerind/youtube-search-python/issues/32)
 * support download videos from a playlist url
 (by https://github.com/nficano/pytube/issues/848)
+* ~~search video/playlist with exist caption only (by https://github.com/alexmercerind/youtube-search-python/issues/32)~~
