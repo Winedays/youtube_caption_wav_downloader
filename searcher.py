@@ -32,7 +32,7 @@ class YoutubeSearch :
     # search playlist in youtube by keyword
     # @parms keyword, search keyword
     # @return   search result in type of self.mode
-    def searchYTPlaylists( self, keyword:str ) :
+    def searchYTPlaylist( self, keyword:str ) :
         self.playlistResult = SearchPlaylists( keyword, offset = self.offset, mode = self.mode, max_results = self.max_results_videos, language = self.language, region = self.region )
         return self.playlistResult.result() ;
 
@@ -75,7 +75,7 @@ if __name__ == "__main__" :
         keyword = "微軟"
         searcher = YoutubeSearch()
         videoInfo = searcher.searchYTVideo( keyword )
-        playlistInfo = searcher.searchYTPlaylists( keyword )
+        playlistInfo = searcher.searchYTPlaylist( keyword )
         print( videoInfo["search_result"][0] )
         print( playlistInfo["search_result"][0] )
         print( searcher.getVideoTitles() )
