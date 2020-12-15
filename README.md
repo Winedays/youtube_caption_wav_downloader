@@ -1,3 +1,6 @@
+###### tags: `github`
+[![hackmd-github-sync-badge](https://hackmd.io/845fkBEuTUGqsFgdfvKykA/badge)](https://hackmd.io/845fkBEuTUGqsFgdfvKykA)
+
 # Youtube 爬蟲下載字幕音檔
 
 **以關鍵字搜尋 Youtube 影片，下載影片音訊及字幕**  
@@ -105,8 +108,14 @@ controller of download process
 > **yt**
 
 Information of a video, you should call this parameter after call getVideoInfo(url)  
-recommended to call gstVideoInfo to get the same result, it more safetive than call this parameter
+recommended to call getVideoInfo to get the same result, it more safetive than call this parameter
 * **@return**   a YouTube Object, please read [pytube docment ](https://python-pytube.readthedocs.io/en/latest/api.html?highlight=on_download_complete#youtube-object)
+
+> **pl**
+
+Information of a playlist, you should call this parameter after call getPlaylistInfo(url)  
+recommended to call getPlaylistInfo to get the same result, it more safetive than call this parameter
+* **@return**   a Playlist Object, please read [pytube docment ](https://python-pytube.readthedocs.io/en/latest/api.html?highlight=on_download_complete#playlist-object)
 
 > **download_captions( url: str, fileName: Optional[str] = None , language: Optional[str] = "zh-TW" , fileType: Optional[str] = "srt" ) → str**
 >     
@@ -124,6 +133,17 @@ download audio as wav format of a video url
 * **@parms fileName**, save file name without extension, optional, defaults to video title.
 * **@parms keepMp4**, is need to keep the mp4 audio file , optional, defaults to False. (because the defaule type of audio file download from youtube is mp4)
 
+> **download_from_playlist( playlist: str, keepMp4: Optional[bool] = False, ignoreCaption: Optional[bool] = False, language: Optional[str] = "zh-TW" , captionType: Optional[str] = "srt", dl_wav: Optional[bool] = True, dl_caption: Optional[bool] = True ) → str**
+
+download audio & caption from a playlist, each file name default to the video title   
+* **@parms playlist**, youtube playlist link url (not a video link).
+* **@parms keepMp4**, is need to keep the mp4 audio file , optional, defaults to False. (because the defaule type of audio file download from youtube is mp4)
+* **@parms ignoreCaption**, download videos which have caption only , optional, defaults to False.
+* **@parms language**, language of captions you want to get, optional, defaults to "zh-TW". ( however "zh-Hant" / "zh-Hant-TW" are similar to "zh-TW" )
+* **@parms captionType**, save caption file format, should be "srt" or "xml", optional, defaults to "srt". (read pytube document get more infomation)
+* **@parms dl_wav**, is need to download audio of videos , optional, defaults to True.
+* **@parms dl_caption**, is need to download caption of videos , optional, defaults to True.
+
 > **convert_mp4_wav( infile: str, outfile: str ) → None**
 
 convert a mp4 file to a wav file by ffmpeg package  
@@ -136,8 +156,14 @@ get a video's information by a video url
 * **@parms url**, youtube link url.
 * **@return**   a YouTube Object, please read [pytube docment ](https://python-pytube.readthedocs.io/en/latest/api.html?highlight=on_download_complete#youtube-object)
 
+> **getPlaylistInfo( url: str ) → pytube.Playlist**
+
+get a video's information by a video url   
+* **@parms url**, youtube playlist url.
+* **@return**   a Playlist Object, please read [pytube docment ](https://python-pytube.readthedocs.io/en/latest/api.html?highlight=on_download_complete#playlist-object)
+
 ## Todo
 * change ffmpeg to python-ffmpeg
-* support download videos from a playlist url
-(by https://github.com/nficano/pytube/issues/848)
+* ~~support download videos from a playlist url
+(by https://github.com/nficano/pytube/issues/848)~~
 * ~~search video/playlist with exist caption only (by https://github.com/alexmercerind/youtube-search-python/issues/32)~~
