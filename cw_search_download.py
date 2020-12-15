@@ -34,24 +34,18 @@ class Youtube :
             if self.downloader.download_captions( link , language = self.language , fileType = "srt" )  :
                 self.downloader.download_wav( link , keepMp4 = False )
                 count += 1 
+        print( f"{sys.argv[0]}: download {str(count)} videos's wav & caption of keyword \"{keyword}\"." )
         # download each playlist video's audio & caption
-        # still can't use beacuse the playlist object problem ( https://github.com/nficano/pytube/issues/848 )
-        '''
         playlistList = self.searcher.getPlaylistLinks()
         for playlist in playlistList :
-            for link in playlist.video_urls :
-                if self.downloader.download_captions( link , language = self.language , fileType = "srt" )  :
-                    self.downloader.download_wav( link , keepMp4 = False )
-                    count += 1 
-        '''
-        print( f"{sys.argv[0]}: download {str(count)} videos's wav & caption of keyword \"{keyword}\"." )
+            self.downloader.download_from_playlist( playlist , keepMp4 = False , language = self.language , captionType = "srt"  )
         return ;
     
 if __name__ == "__main__" :  
     try :
         keyword = "TED 台灣"
         savePath = "./tmp"
-        yt = Youtube( savePath = savePath , max_results_videos = 5 )
+        yt = Youtube( savePath = savePath , max_results_videos = 5 , max_results_playlist = 1 )
         yt.downloadRelatedVideos( keyword )
         
     except Exception as e :

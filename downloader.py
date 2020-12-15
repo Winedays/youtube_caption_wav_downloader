@@ -2,7 +2,7 @@ import os
 import subprocess
 import sys
 from io import BytesIO
-from pytube import YouTube
+from pytube import YouTube, Playlist
 
 # give a youtube video url , download it caption & audio as a file
 class YoutubeDownload :
@@ -12,8 +12,10 @@ class YoutubeDownload :
         if not self.checkPath( savePath ) :
             raise Exception(f"Save Path Error : save path {savePath} not exist.") 
         self.url = ""
+        self.playlist = ""
         self.savePath = savePath
         self.yt = None
+        self.pl = None
         return ;
     
     # get YouTube type object
@@ -25,6 +27,16 @@ class YoutubeDownload :
             self.yt = YouTube(url)
             self.url = url
         return self.yt ;
+    
+    # get Playlist type object
+    # @parms url, youtube playlist url.
+    # @return   playlist type object
+    def getPlaylistInfo( self , url ) :
+        # check if this url already loaded
+        if self.url != url :
+            self.pl = Playlist(url)
+            self.playlist = url
+        return self.pl ;
     
     # get captions and save as srt/xml format file
     # @parms url, youtube link url.
@@ -88,6 +100,26 @@ class YoutubeDownload :
         else :
             print( f"{sys.argv[0]}: {self.yt.watch_url} wav audio save as {saveFile} & {wavFile}." )
         return wavFile ;
+    
+    # extract audio & caption from a playlist, each file name default to the video title 
+    # @parms url, youtube playlist url.
+    # @parms keepMp4, is need to keep the mp4 audio file , optional, defaults to False.
+    # @parms ignoreCaption, download videos which have caption only , optional, defaults to False.
+    # @parms language, language of captions you want to get, optional, defaults to "zh-TW". ( however "zh-Hant" / "zh-Hant-TW" are similar to "zh-TW" )
+    # @parms captionType, save caption file format, should be "srt" or "xml", optional, defaults to "srt".
+    # @parms dl_wav, download audio of videos , optional, defaults to True.
+    # @parms dl_caption, download caption of videos , optional, defaults to True.
+    # @return   save path of folder
+    def download_from_playlist( self , playlist: str, keepMp4: bool = False, ignoreCaption = False , language: str = "zh-TW", captionType: str = "srt" , dl_wav = True , dl_caption = True ) :
+        self.getPlaylistInfo( playlist )
+        # download each video in playlist
+        for link in self.pl.video_urls :
+            captionPath = None 
+            if dl_caption :
+                captionPath = self.download_captions( link , language = language , fileType = captionType ) 
+            if dl_wav and ( ignoreCaption or captionPath ) :
+                self.download_wav( link , keepMp4 = keepMp4 )
+        return self.savePath ;
     
     # convert a mp4 file to wav format by ffmpeg
     # @parms infile, input file position.

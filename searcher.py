@@ -60,7 +60,7 @@ class YoutubeSearch :
     # @return   a list of links of playlist search result
     def getPlaylistLinks( self ) :
         self.checkIsSearch( "playlistResult" , "getPlaylistLinks" )
-        return self.videosResult.links ;
+        return self.playlistResult.links ;
     
     # check is class already search video/playlist before
     # @parms searchType, search result object name, should be "videosResult" or "playlistResult"
